@@ -13,12 +13,10 @@ type Props = {
 };
 
 function ReadRow({ row, handleRowClick }: Props) {
-  console.log(`Read ${row.id}描画`);
-
   return (
     <StyledTableRow key={row.id} data-id={row.id} onClick={handleRowClick}>
       <StyledTableCell>
-        <Button variant="outlined" onClick={() => console.log(`${row.id}を保存`)}>
+        <Button disabled variant="outlined">
           保存
         </Button>
       </StyledTableCell>

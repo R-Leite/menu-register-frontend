@@ -40,6 +40,7 @@ function SortTableHead({ state, setState, columns }: Props) {
             key={col.id}
             sortDirection={state.key === col.id ? state.order : false}
             width={col.width}
+            sx={{ top: 64 }}
           >
             <StyledTableSortLabel
               active={state.key === col.id}

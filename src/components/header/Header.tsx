@@ -8,12 +8,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
-// import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
 function Header() {
   // drawer
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
+
+  const menus = [
+    { id: 1, path: 'menu', name: '献立', icon: <DateRangeIcon /> },
+    { id: 2, path: 'dishes', name: 'メニューリスト', icon: <FormatListBulletedIcon /> },
+  ];
 
   return (
     <Box sx={{ paddingBottom: 8 }}>
@@ -32,12 +39,12 @@ function Header() {
         onOpen={toggleDrawer(true)}
       >
         <MenuList>
-          <MenuItem component={Link} to="/menu">
-            <ListItemText>献立</ListItemText>
-          </MenuItem>
-          <MenuItem component={Link} to="/dishes">
-            <ListItemText>メニューリスト</ListItemText>
-          </MenuItem>
+          {menus.map((m) => (
+            <MenuItem key={m.id} component={Link} to={m.path}>
+              <ListItemIcon>{m.icon}</ListItemIcon>
+              <ListItemText>{m.name}</ListItemText>
+            </MenuItem>
+          ))}
         </MenuList>
       </SwipeableDrawer>
     </Box>

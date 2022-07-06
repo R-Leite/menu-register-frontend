@@ -1,12 +1,13 @@
 import React from 'react';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import FormatListBulleted from '@mui/icons-material/FormatListBulleted';
 
 type Props = {
   label: string;
+  icon: JSX.Element;
 };
 
-function PageTitle({ label }: Props) {
+function PageTitle({ label, icon }: Props) {
   return (
     <Typography
       sx={{
@@ -17,9 +18,9 @@ function PageTitle({ label }: Props) {
       }}
       variant="h4"
     >
-      <FormatListBulleted
-        sx={{ marginLeft: (theme) => theme.spacing(1), marginRight: (theme) => theme.spacing(1) }}
-      />
+      <Box component="span" sx={{ mx: (theme) => theme.spacing(1), verticalAlign: 'middle' }}>
+        {icon}
+      </Box>
       {label}
     </Typography>
   );

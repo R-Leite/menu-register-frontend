@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Button, Dialog } from '@mui/material';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 
 type Props = {
-  message: string;
+  message: ReactNode;
   isOpen: boolean;
   doYes: () => void;
   doNo: () => void;

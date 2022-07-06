@@ -1,77 +1,143 @@
-import React, { useState, useContext } from 'react';
+import React, { ReactNode, useState, useContext } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import StarRating from 'components/common/StarRating';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { AlertColor } from '@mui/material/Alert';
+import axios, { AxiosResponse } from 'axios';
+import { API_ROOT } from 'SystemConstants';
 import { StyledTableCell } from 'components/atoms/StyledTableCell';
 import { StyledTableRow } from 'components/atoms/StyledTableRow';
 import ConfirmDialog from 'components/common/ConfirmDialog';
-import CustomSnackbar from 'components/common/CustomSnackbar';
-import { EvalChangeContext } from 'components/dishes/Dishes';
+import { SnackbarState } from 'components/common/CustomSnackbar';
+import { Menu } from 'components/menu-calendar/MenuCalendar';
+import { EvalChangeContext, DishContext } from 'components/dishes/Dishes';
 import { DishEvaluation } from 'components/dishes/HybridRow';
 
 type Props = {
-  notSave: boolean;
   row: DishEvaluation;
   handleRateChange: (key: 'ichito' | 'mito') => (rate: number) => () => void;
   handleInputChange: (
     key: 'name' | 'ruby',
   ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  setSnackbarState: React.Dispatch<React.SetStateAction<SnackbarState>>;
 };
 
-function EditedRow({ notSave, row, handleRateChange, handleInputChange }: Props) {
-  console.log(`edit row ${row.id}描画`);
-
+function EditedRow({ row, handleRateChange, handleInputChange, setSnackbarState }: Props) {
   // コンテキスト
   const changeContext = useContext(EvalChangeContext);
+  const { dishes, fetch } = useContext(DishContext);
 
   // 確認ダイアログ
   const [dialogOpen, setDialogOpen] = useState(false);
-  const deleteYes = () => {
-    console.log(`${row.id}を削除!`);
-  };
+  const [dialogMessage, setDialogMessage] = useState<ReactNode>();
 
-  const handleDeleteClick = () => setDialogOpen(true);
-
-  // Snackbar
-  const [isOpenSnackbar, setIsOpenSnackbar] = useState(false);
-  const [snackbarStatus, setSnackbarStatus] = useState<AlertColor>('success');
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const handleClose = () => setIsOpenSnackbar(false);
-
+  // 保存押下
   const handleSaveClick = () => {
-    setIsOpenSnackbar(true);
-    setSnackbarStatus('success');
-    setSnackbarMessage('保存しました');
+    const url = `${API_ROOT}/dishes/${row.id}/`;
+    const requestJson = {
+      dish_type: 1,
+      ruby: row.ruby,
+      name: row.name,
+      ichito: row.ichito,
+      mito: row.mito,
+    };
+
+    void axios
+      .put(url, requestJson)
+      .then((_) =>
+        setSnackbarState({
+          isOpen: true,
+          message: '保存しました。',
+          status: 'success',
+        }),
+      )
+      .catch((_) =>
+        setSnackbarState({
+          isOpen: true,
+          message: '保存に失敗しました。',
+          status: 'error',
+        }),
+      );
   };
+
+  // 削除押下
+  const handleDeleteClick = async () => {
+    const url = `${API_ROOT}/menus/?dish=${row.id}`;
+    const deleteMenus: AxiosResponse<Menu[]> = await axios.get(url);
+    const msg = (
+      <>
+        下記の日付に登録されていますが、削除しますか？
+        {deleteMenus.data
+          .map((x) => x.date)
+          .map((x) => (
+            <div>・{x}</div>
+          ))}
+      </>
+    );
+    setDialogMessage(msg);
+    setDialogOpen(true);
+  };
+
+  const deleteYes = () => {
+    const url = `${API_ROOT}/dishes/${row.id}/`;
+    void axios
+      .delete(url)
+      .then((_) =>
+        setSnackbarState({
+          isOpen: true,
+          message: `${row.name}を削除しました。`,
+          status: 'success',
+        }),
+      )
+      .catch((_) =>
+        setSnackbarState({
+          isOpen: true,
+          message: `${row.name}の削除に失敗しました。`,
+          status: 'error',
+        }),
+      )
+      .finally(() => {
+        setDialogOpen(false);
+        fetch();
+      });
+  };
+
+  const nameError = dishes.filter((d) => d.id !== row.id).some((d) => d.name === row.name);
+  const nameHelper = nameError ? '既に同じ名前が存在します。' : '';
+  const rubyError = dishes.filter((d) => d.id !== row.id).some((d) => d.ruby === row.ruby);
+  const rubyHelper = rubyError ? '既に同じふりがなが存在します。' : '';
 
   return (
     <>
       <StyledTableRow key={row.id} data-id={row.id}>
         <StyledTableCell>
-          <Button disabled={notSave} variant="outlined" onClick={handleSaveClick}>
+          <Button disabled={nameError || rubyError} variant="contained" onClick={handleSaveClick}>
             保存
           </Button>
         </StyledTableCell>
         <StyledTableCell>
           <TextField
             autoFocus
-            defaultValue={row.name}
+            error={nameError}
+            helperText={nameHelper}
             value={row.name}
-            onChange={(event) => {
-              changeContext.handleInputChange(row.id)('name')(event);
-              handleInputChange('name')(event);
+            size="small"
+            onChange={(e) => {
+              handleInputChange('name')(e);
+              changeContext.handleInputChange(row.id)('name')(e);
             }}
           />
         </StyledTableCell>
         <StyledTableCell>
           <TextField
-            defaultValue={row.ruby}
-            onChange={(event) => {
-              changeContext.handleInputChange(row.id)('ruby')(event);
-              handleInputChange('ruby')(event);
+            error={rubyError}
+            helperText={rubyHelper}
+            value={row.ruby}
+            size="small"
+            onChange={(e) => {
+              handleInputChange('ruby')(e);
+              changeContext.handleInputChange(row.id)('ruby')(e);
             }}
           />
         </StyledTableCell>
@@ -97,18 +163,12 @@ function EditedRow({ notSave, row, handleRateChange, handleInputChange }: Props)
         </StyledTableCell>
         <StyledTableCell>
           <IconButton onClick={handleDeleteClick}>
-            <DeleteIcon />
+            <DeleteIcon color="error" />
           </IconButton>
         </StyledTableCell>
       </StyledTableRow>
-      <CustomSnackbar
-        isOpen={isOpenSnackbar}
-        status={snackbarStatus}
-        message={snackbarMessage}
-        handleClose={handleClose}
-      />
       <ConfirmDialog
-        message="削除しますか？"
+        message={dialogMessage}
         isOpen={dialogOpen}
         doYes={deleteYes}
         doNo={() => setDialogOpen(false)}

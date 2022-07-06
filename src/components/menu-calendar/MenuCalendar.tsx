@@ -1,11 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useState, useEffect, createContext } from 'react';
 import Calendar, { CalendarTileProperties } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import axios, { AxiosResponse } from 'axios';
+import { API_ROOT } from 'SystemConstants';
+import { formatDate } from 'Utils';
 import Header from 'components/header/Header';
 import PageTitle from 'components/common/PageTitle';
-import MenuDialog, { formatDate } from 'components/menu-calendar/MenuDialog';
+import MenuDialog from 'components/menu-calendar/MenuDialog';
+import { DishEvaluation } from 'components/dishes/HybridRow';
 
 const useStyles = makeStyles({
   calendar: {
@@ -13,18 +21,18 @@ const useStyles = makeStyles({
   },
 });
 
-type Menu = {
+export type Menu = {
   id: number;
   date: string;
-  name: string;
+  dish: DishEvaluation;
 };
 
-const examples: Menu[] = [
-  { id: 1, date: '2022-01-01', name: 'カレーライス' },
-  { id: 2, date: '2022-01-02', name: '鍋' },
-];
-
-export const MenuContext = createContext<Menu[]>([]);
+export const MenuContext = createContext(
+  {} as {
+    menus: Menu[];
+    fetchMenu: () => void;
+  },
+);
 
 function MenuCalendar() {
   const classes = useStyles();
@@ -34,9 +42,6 @@ function MenuCalendar() {
 
   // ダイアログ
   const [dialogOpen, setDialogOpen] = useState(false);
-  const handleClose = () => {
-    setDialogOpen(false);
-  };
 
   // 選択日付
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -45,22 +50,30 @@ function MenuCalendar() {
     setDialogOpen(true);
   };
 
+  const fetch = (d: Date) => {
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const url = `${API_ROOT}/menus?year=${year}&month=${month}`;
+    void axios.get(url).then((res: AxiosResponse<Menu[]>) => setMenus(res.data));
+  };
+
   useEffect(() => {
-    setMenus(examples);
+    void fetch(new Date());
   }, []);
 
   // 各メニュー名表示
   const tileContent = (tileProperties: CalendarTileProperties) => {
     const dateString = formatDate(tileProperties.date, 'yyyy-MM-dd');
-    const content = menus.find((m) => m.date === dateString)?.name ?? '';
+    const content = menus.find((m) => m.date === dateString)?.dish?.name ?? '';
 
     return <div>{content}</div>;
   };
 
   return (
-    <MenuContext.Provider value={menus}>
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <MenuContext.Provider value={{ menus, fetchMenu: () => fetch(selectedDate) }}>
       <Header />
-      <PageTitle label="献立" />
+      <PageTitle label="献立" icon={<DateRangeIcon fontSize="large" />} />
       <Box sx={{ marginLeft: (theme) => theme.spacing(2) }}>
         <Calendar
           calendarType="US"
@@ -68,11 +81,12 @@ function MenuCalendar() {
           formatDay={(locale, d) => d.getDate().toString()}
           locale="ja-JP"
           onChange={handleDateChange}
+          onActiveStartDateChange={({ activeStartDate }) => fetch(activeStartDate)}
           tileContent={tileContent}
           value={selectedDate}
         />
       </Box>
-      <MenuDialog date={selectedDate} open={dialogOpen} handleClose={handleClose} />
+      <MenuDialog date={selectedDate} open={dialogOpen} handleClose={() => setDialogOpen(false)} />
     </MenuContext.Provider>
   );
 }
