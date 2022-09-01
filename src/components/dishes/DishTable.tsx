@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Paper from '@mui/material/Paper';
 import { Table, TableContainer } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import SortTableHead, { sortState, HeadCell } from 'components/common/SortTableHead';
 import SortTableBody, { stableSort, getComparator } from 'components/common/SortTableBody';
 import CustomSnackbar, { SnackbarState } from 'components/common/CustomSnackbar';
@@ -28,6 +30,9 @@ function DishTable({ evaluations }: Props) {
     key: 'ruby',
   });
 
+  // 検索文字列
+  const [searchWord, setSearchWord] = useState<string>('');
+
   const columns: HeadCell[] = [
     { id: 'save', label: '', width: 10 },
     { id: 'name', label: '料理名', width: 200 },
@@ -37,28 +42,41 @@ function DishTable({ evaluations }: Props) {
     { id: 'delete', label: '', width: 10 },
   ];
 
+  const filteredData = useMemo(() => {
+    return evaluations.filter((e) => e.name.includes(searchWord) || e.ruby.includes(searchWord));
+  }, [searchWord, evaluations]);
+
   return (
     <>
-      <Paper sx={{ m: (theme) => theme.spacing(2), width: '60rem' }}>
-        <TableContainer sx={{ overflow: 'visible' }}>
-          <Table stickyHeader size="small">
-            <SortTableHead state={sort} setState={setSort} columns={columns} />
-            <SortTableBody>
-              {stableSort<DishEvaluation>(evaluations, getComparator(sort.order, sort.key)).map(
-                (row) => (
-                  <HybridRow
-                    key={row.id}
-                    isEdit={row.id === editRow}
-                    row={row}
-                    handleRowClick={handleRowClick(row.id)}
-                    setSnackbarState={setSnackbarState}
-                  />
-                ),
-              )}
-            </SortTableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
+      <Box m={2}>
+        <TextField
+          label="検索フィルタ"
+          variant="standard"
+          value={searchWord}
+          onChange={(e) => setSearchWord(e.target.value)}
+          sx={{ marginBottom: 1 }}
+        />
+        <Paper sx={{ width: '60rem' }}>
+          <TableContainer sx={{ overflow: 'visible' }}>
+            <Table stickyHeader size="small">
+              <SortTableHead state={sort} setState={setSort} columns={columns} />
+              <SortTableBody>
+                {stableSort<DishEvaluation>(filteredData, getComparator(sort.order, sort.key)).map(
+                  (row) => (
+                    <HybridRow
+                      key={row.id}
+                      isEdit={row.id === editRow}
+                      row={row}
+                      handleRowClick={handleRowClick(row.id)}
+                      setSnackbarState={setSnackbarState}
+                    />
+                  ),
+                )}
+              </SortTableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Box>
       <CustomSnackbar state={snackbarState} setSnackbarState={setSnackbarState} />
     </>
   );

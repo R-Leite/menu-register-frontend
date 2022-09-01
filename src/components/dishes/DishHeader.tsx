@@ -4,6 +4,8 @@ import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { SxProps, Theme } from '@mui/material/styles';
 import { DishEvaluation } from 'components/dishes/HybridRow';
 import { StyledTableCell } from 'components/atoms/StyledTableCell';
@@ -40,33 +42,36 @@ function DishHeader({ evaluations }: Props) {
   );
 
   return (
-    <TableContainer component={Paper} sx={{ margin: (theme) => theme.spacing(2), width: '30rem' }}>
-      <Table size="small">
-        <TableHead>
-          <StyledTableRow>
-            {columns.map((x) => (
-              <StyledTableCell key={x.id} sx={{ textAlign: 'center' }}>
-                {x.label}
-              </StyledTableCell>
-            ))}
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>
-          <StyledTableRow>
-            <StyledTableCell sx={subjectCell}>いちと</StyledTableCell>
-            {ichitoRate.map((x) => (
-              <StyledTableCell sx={bodyCell}>{x}</StyledTableCell>
-            ))}
-          </StyledTableRow>
-          <StyledTableRow>
-            <StyledTableCell sx={subjectCell}>みと</StyledTableCell>
-            {mitoRate.map((x) => (
-              <StyledTableCell sx={bodyCell}>{x}</StyledTableCell>
-            ))}
-          </StyledTableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box sx={{ display: 'inline-flex' }}>
+      <TableContainer component={Paper} sx={{ margin: 2, width: '30rem' }}>
+        <Table size="small">
+          <TableHead>
+            <StyledTableRow>
+              {columns.map((x) => (
+                <StyledTableCell key={x.id} sx={{ textAlign: 'center' }}>
+                  {x.label}
+                </StyledTableCell>
+              ))}
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+            <StyledTableRow>
+              <StyledTableCell sx={subjectCell}>いちと</StyledTableCell>
+              {ichitoRate.map((x) => (
+                <StyledTableCell sx={bodyCell}>{x}</StyledTableCell>
+              ))}
+            </StyledTableRow>
+            <StyledTableRow>
+              <StyledTableCell sx={subjectCell}>みと</StyledTableCell>
+              {mitoRate.map((x) => (
+                <StyledTableCell sx={bodyCell}>{x}</StyledTableCell>
+              ))}
+            </StyledTableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Typography marginTop={12}>合計：{evaluations.length}</Typography>
+    </Box>
   );
 }
 
