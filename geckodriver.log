@@ -1,0 +1,58 @@
+1686459379851	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.cWGlLy5lZsIE"
+*** You are running in headless mode.
+1686459388417	Marionette	INFO	Listening on port 45791
+1686459388512	Marionette	WARN	TLS certificate errors will be ignored for this session
+1686459398728	Marionette	WARN	TimedPromise timed out after 0 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:245:13
+TimedPromise@chrome://marionette/content/sync.js:230:10
+Sleep@chrome://marionette/content/sync.js:283:10
+dispatchPause@chrome://marionette/content/action.js:1482:10
+toEvents/<@chrome://marionette/content/action.js:1156:16
+action.dispatchTickActions@chrome://marionette/content/action.js:1060:35
+action.dispatch/chainEvents<@chrome://marionette/content/action.js:1028:20
+action.dispatch@chrome://marionette/content/action.js:1034:5
+performActions@chrome://marionette/content/listener.js:853:16
+dispatch/</req<@chrome://marionette/content/listener.js:527:14
+dispatch/<@chrome://marionette/content/listener.js:520:15
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 1762 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 1762 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 1762 > eval line 1 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: https://static.criteo.net/js/ld/publishertag.ids.js, line 1: TypeError: crypto.randomUUID is not a function
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 2045 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 2045 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 2045 > eval line 1 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 994 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 994 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 994 > eval line 1 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+1686459557665	Marionette	WARN	TimedPromise timed out after 0 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:245:13
+TimedPromise@chrome://marionette/content/sync.js:230:10
+Sleep@chrome://marionette/content/sync.js:283:10
+dispatchPause@chrome://marionette/content/action.js:1482:10
+toEvents/<@chrome://marionette/content/action.js:1156:16
+action.dispatchTickActions@chrome://marionette/content/action.js:1060:35
+action.dispatch/chainEvents<@chrome://marionette/content/action.js:1028:20
+action.dispatch@chrome://marionette/content/action.js:1034:5
+performActions@chrome://marionette/content/listener.js:853:16
+dispatch/</req<@chrome://marionette/content/listener.js:527:14
+dispatch/<@chrome://marionette/content/listener.js:520:15
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 6623 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 6623 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 6623 > eval line 1 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 7529 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 7529 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 7529 > eval line 1 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 1330 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 1330 > eval line 1 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/mZQVpQj-eDQajpu59Vq9E2pMu32_YVAoNW79LAI6QMI.js line 2 > eval line 1330 > eval line 1 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.

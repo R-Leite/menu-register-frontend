@@ -49,6 +49,7 @@ function Dishes() {
   const [evaluations, setEvaluations] = useState<DishEvaluation[]>([]);
 
   const fetch = () => {
+    // TODO:ここでメニューも取得して、最終日を取得する
     const url = `${API_ROOT}/dishes`;
     void axios.get(url).then((res: AxiosResponse<DishEvaluation[]>) => {
       setEvaluations(res.data);

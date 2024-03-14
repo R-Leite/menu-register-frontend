@@ -61,17 +61,18 @@ function DishTable({ evaluations }: Props) {
             <Table stickyHeader size="small">
               <SortTableHead state={sort} setState={setSort} columns={columns} />
               <SortTableBody>
-                {stableSort<DishEvaluation>(filteredData, getComparator(sort.order, sort.key)).map(
-                  (row) => (
-                    <HybridRow
-                      key={row.id}
-                      isEdit={row.id === editRow}
-                      row={row}
-                      handleRowClick={handleRowClick(row.id)}
-                      setSnackbarState={setSnackbarState}
-                    />
-                  ),
-                )}
+                {stableSort<DishEvaluation>(
+                  filteredData.slice(0, 10),
+                  getComparator(sort.order, sort.key),
+                ).map((row) => (
+                  <HybridRow
+                    key={row.id}
+                    isEdit={row.id === editRow}
+                    row={row}
+                    handleRowClick={handleRowClick(row.id)}
+                    setSnackbarState={setSnackbarState}
+                  />
+                ))}
               </SortTableBody>
             </Table>
           </TableContainer>
